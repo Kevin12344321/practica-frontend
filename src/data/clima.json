@@ -1,0 +1,12 @@
+[
+  { "fecha": "2026-10-01", "tempMax": 23.4, "tempMin": 12.1, "lluvia": 4.2 },
+  { "fecha": "2026-10-02", "tempMax": 22.8, "tempMin": 11.7, "lluvia": 0.0 },
+  { "fecha": "2026-10-03", "tempMax": 24.1, "tempMin": 12.9, "lluvia": 1.5 },
+  { "fecha": "2026-10-04", "tempMax": 21.6, "tempMin": 11.2, "lluvia": 8.7 },
+  { "fecha": "2026-10-05", "tempMax": 20.9, "tempMin": 10.8, "lluvia": 12.3 },
+  { "fecha": "2026-10-06", "tempMax": 22.3, "tempMin": 11.5, "lluvia": 0.4 },
+  { "fecha": "2026-10-07", "tempMax": 24.7, "tempMin": 13.0, "lluvia": 0.0 },
+  { "fecha": "2026-10-08", "tempMax": 25.2, "tempMin": 13.4, "lluvia": 0.0 },
+  { "fecha": "2026-10-09", "tempMax": 23.9, "tempMin": 12.6, "lluvia": 3.1 },
+  { "fecha": "2026-10-10", "tempMax": 22.5, "tempMin": 11.9, "lluvia": 5.6 }
+]
