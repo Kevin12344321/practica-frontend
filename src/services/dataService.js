@@ -49,3 +49,34 @@ export async function obtenerSerieDeTiempo({ latitud, longitud, fechaInicio, fec
     lluvia: precipitation_sum[i] ?? 0,
   }));
 }
+
+
+
+
+
+
+// Convierte el arreglo de datos en la estructura que usan las gráficas
+export function formatearParaGrafico(datosCrudos, campo = 'tempMax') {
+  if (!Array.isArray(datosCrudos) || datosCrudos.length === 0) {
+    return { labels: [], values: [] }; // evita errores con arreglos vacíos
+  }
+  return {
+    labels: datosCrudos.map((d) => d.fecha),
+    values: datosCrudos.map((d) => Number(d[campo]) || 0),
+  };
+}
+
+// Cuenta los días por intensidad de lluvia (para la gráfica comparativa)
+export function agruparLluviaPorCategoria(datosCrudos) {
+  const conteo = { 'Sin lluvia': 0, Ligera: 0, Moderada: 0, Fuerte: 0 };
+  if (!Array.isArray(datosCrudos)) {
+    return { labels: Object.keys(conteo), values: Object.values(conteo) };
+  }
+  datosCrudos.forEach(({ lluvia }) => {
+    if (lluvia === 0) conteo['Sin lluvia']++;
+    else if (lluvia < 2.5) conteo.Ligera++;
+    else if (lluvia <= 7.5) conteo.Moderada++;
+    else conteo.Fuerte++;
+  });
+  return { labels: Object.keys(conteo), values: Object.values(conteo) };
+}

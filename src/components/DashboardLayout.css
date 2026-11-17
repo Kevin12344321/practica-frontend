@@ -38,3 +38,25 @@ body { margin: 0; display: block; background: #f4f6f9; }
   .principal { padding: 16px; }
   .encabezado h1 { font-size: 20px; }
 }
+
+
+
+/* Gráficas D3 */
+.zona-graficos { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.zona-graficos > * { min-width: 0; }
+.grafico-d3 { position: relative; width: 100%; }
+.grafico-d3 svg { display: block; overflow: visible; }
+.rejilla line { stroke: #e0e0e0; }
+.leyenda { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; margin-bottom: 6px; }
+.leyenda i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+.tooltip-d3 {
+  position: absolute; pointer-events: none; opacity: 0; transition: opacity .15s;
+  background: rgba(33, 33, 33, .92); color: #fff; padding: 6px 10px;
+  border-radius: 6px; font-size: 12px; white-space: nowrap;
+}
+.nota { margin: -6px 0 8px; font-size: 12px; color: #777; }
+.sin-datos { color: #999; text-align: center; }
+
+@media (max-width: 1024px) {
+  .zona-graficos { grid-template-columns: 1fr; }
+}

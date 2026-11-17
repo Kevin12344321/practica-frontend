@@ -1,11 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import PanelFiltros from './PanelFiltros';
 import TarjetaMetrica from './TarjetaMetrica';
-import GraficoClima from './GraficoClima';
 import TablaDatos from './TablaDatos';
+import GraficoTendencia from './charts/GraficoTendencia';
+import GraficoComparativo from './charts/GraficoComparativo';
 import { CIUDADES } from '../data/ciudades';
-import { obtenerSerieDeTiempo, procesarDatos } from '../services/dataService';
+import {
+  obtenerSerieDeTiempo, procesarDatos,
+  formatearParaGrafico, agruparLluviaPorCategoria,
+} from '../services/dataService';
 import './DashboardLayout.css';
+
 
 export default function DashboardLayout() {
   // Estado global de los filtros
@@ -17,6 +22,22 @@ export default function DashboardLayout() {
   const [datos, setDatos] = useState(null);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
+
+
+    // Datos formateados para las gráficas (se recalculan cuando cambian los datos filtrados)
+  const graficos = useMemo(() => {
+    const filas = datos?.filas ?? [];
+    const max = formatearParaGrafico(filas, 'tempMax');
+    const min = formatearParaGrafico(filas, 'tempMin');
+    return {
+      labels: max.labels,
+      series: [
+        { nombre: 'Temp. máxima', values: max.values, color: '#d32f2f' },
+        { nombre: 'Temp. mínima', values: min.values, color: '#1565c0' },
+      ],
+      lluvia: agruparLluviaPorCategoria(filas),
+    };
+  }, [datos]);
 
   // Cada vez que cambian los filtros, se vuelve a consultar la API
   useEffect(() => {
@@ -85,9 +106,16 @@ export default function DashboardLayout() {
             </section>
 
             {/* Centro: gráfico */}
-            <section className="caja">
-              <h3>Temperatura y precipitación diaria</h3>
-              <GraficoClima filas={datos.filas} />
+            <section className="zona-graficos">
+              <div className="caja">
+                <h3>Tendencia de temperatura diaria</h3>
+                <GraficoTendencia labels={graficos.labels} series={graficos.series} unidad="°C" />
+              </div>
+              <div className="caja">
+                <h3>Días por intensidad de lluvia</h3>
+                <p className="nota">Ligera &lt; 2.5 mm · Moderada 2.5–7.5 mm · Fuerte &gt; 7.5 mm</p>
+                <GraficoComparativo labels={graficos.lluvia.labels} values={graficos.lluvia.values} unidad="días" />
+              </div>
             </section>
 
             {/* Abajo: tabla */}
